@@ -86,46 +86,46 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import Swal from "sweetalert2";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import VoerroTagsInput from "@voerro/vue-tagsinput";
+import { mapState, mapActions } from 'vuex';
+import Swal from 'sweetalert2';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import VoerroTagsInput from '@voerro/vue-tagsinput';
 
 export default {
-  name: "MyQuestion",
+  name: 'MyQuestion',
   components: {
-    "tags-input": VoerroTagsInput
+    'tags-input': VoerroTagsInput,
   },
   data() {
     return {
       dialog: false,
-      userId: localStorage.getItem("id"),
+      userId: localStorage.getItem('id'),
       dialog: false,
-      newTitle: "",
+      newTitle: '',
       newTags: [],
       editor: ClassicEditor,
-      newDescription: "",
+      newDescription: '',
       editorConfig: {
         // The configuration of the rich-text editor.
       },
-      questionId: ""
+      questionId: '',
     };
   },
   computed: {
-    ...mapState(["questions"])
+    ...mapState(['questions']),
   },
   created() {
     this.getAllQuestion();
   },
   methods: {
-    ...mapActions(["getAllQuestion"]),
+    ...mapActions(['getAllQuestion']),
     votes(vote, questionId) {
-      this.$store.dispatch("votes", [vote, questionId]);
+      this.$store.dispatch('votes', [vote, questionId]);
     },
     showVotes(index) {
       if (this.questions[index].votes.length) {
         return this.questions[index].votes.reduce((a, b) => ({
-          status: a.status + b.status
+          status: a.status + b.status,
         }));
       }
       return { status: 0 };
@@ -141,30 +141,30 @@ export default {
       const input = {
         title: this.newTitle,
         description: this.newDescription,
-        tags: this.newTags
+        tags: this.newTags,
       };
 
-      this.$store.dispatch("updateQuestion", [this.questionId, input]);
+      this.$store.dispatch('updateQuestion', [this.questionId, input]);
       // this.$store.dispatch("getAllQuestion");
       this.dialog = false;
     },
     deleteQuestion(questionId) {
       Swal.fire({
-        title: "Are you sure?",
+        title: 'Are you sure?',
         text: "You won't be able to revert this!",
-        type: "warning",
+        type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then(result => {
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      }).then((result) => {
         if (result.value) {
-          this.$store.dispatch("deleteQuestion", questionId);
+          this.$store.dispatch('deleteQuestion', questionId);
           // this.$store.dispatch("getAllQuestion");
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

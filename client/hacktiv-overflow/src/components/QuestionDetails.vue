@@ -119,48 +119,48 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import Swal from "sweetalert2";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { mapState, mapActions } from 'vuex';
+import Swal from 'sweetalert2';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
-  name: "QuestionDetails",
+  name: 'QuestionDetails',
   data() {
     return {
       dialog: false,
-      userId: localStorage.getItem("id"),
-      inputTitle: "",
+      userId: localStorage.getItem('id'),
+      inputTitle: '',
       editor: ClassicEditor,
-      inputDescription: "",
+      inputDescription: '',
       editorConfig: {
         // The configuration of the rich-text editor.
       },
-      newTitle: "",
-      newDescription: "",
-      answerId: ""
+      newTitle: '',
+      newDescription: '',
+      answerId: '',
     };
   },
   computed: {
-    ...mapState(["questionDetails"])
+    ...mapState(['questionDetails']),
   },
   created() {
-    this.$store.dispatch("getQuestionDetails", this.$route.params.questionId);
+    this.$store.dispatch('getQuestionDetails', this.$route.params.questionId);
   },
   methods: {
     votesQuestion(vote, questionId) {
-      this.$store.dispatch("votesQuestion", [vote, questionId]);
+      this.$store.dispatch('votesQuestion', [vote, questionId]);
     },
     votesAnswer(vote, answerId) {
-      this.$store.dispatch("votesAnswer", [
+      this.$store.dispatch('votesAnswer', [
         vote,
         answerId,
-        this.$route.params.questionId
+        this.$route.params.questionId,
       ]);
     },
     showVotesQuestion() {
       if (this.questionDetails.votes.length) {
         return this.questionDetails.votes.reduce((a, b) => ({
-          status: a.status + b.status
+          status: a.status + b.status,
         }));
       }
       return { status: 0 };
@@ -168,25 +168,25 @@ export default {
     showVotes(index) {
       if (this.questionDetails.answers[index].votes.length) {
         return this.questionDetails.answers[index].votes.reduce((a, b) => ({
-          status: a.status + b.status
+          status: a.status + b.status,
         }));
       }
       return { status: 0 };
     },
     clear() {
-      this.inputTitle = "";
-      this.inputDescription = "";
+      this.inputTitle = '';
+      this.inputDescription = '';
     },
     addAnswer(questionId) {
       const input = {
         title: this.inputTitle,
         description: this.inputDescription,
-        questionId
+        questionId,
       };
 
-      this.$store.dispatch("addAnswer", input);
+      this.$store.dispatch('addAnswer', input);
       this.clear();
-      this.$store.dispatch("getQuestionDetails", this.$route.params.questionId);
+      this.$store.dispatch('getQuestionDetails', this.$route.params.questionId);
     },
     showModalEdit(answer) {
       this.answerId = answer._id;
@@ -197,35 +197,35 @@ export default {
     updateAnswer() {
       const input = {
         title: this.newTitle,
-        description: this.newDescription
+        description: this.newDescription,
       };
 
-      this.$store.dispatch("updateAnswer", [
+      this.$store.dispatch('updateAnswer', [
         this.answerId,
         input,
-        this.$route.params.questionId
+        this.$route.params.questionId,
       ]);
       this.dialog = false;
     },
     deleteAnswer(answerId) {
       Swal.fire({
-        title: "Are you sure?",
+        title: 'Are you sure?',
         text: "You won't be able to revert this!",
-        type: "warning",
+        type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then(result => {
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      }).then((result) => {
         if (result.value) {
-          this.$store.dispatch("deleteAnswer", [
+          this.$store.dispatch('deleteAnswer', [
             answerId,
-            this.$route.params.questionId
+            this.$route.params.questionId,
           ]);
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

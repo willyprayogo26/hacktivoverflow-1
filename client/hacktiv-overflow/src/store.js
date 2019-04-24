@@ -11,7 +11,7 @@ export default new Vuex.Store({
     isLogin: false,
     questions: [],
     questionDetails: {},
-    watchedTags: []
+    watchedTags: [],
   },
   mutations: {
     changeIsLogin(state) {
@@ -24,8 +24,8 @@ export default new Vuex.Store({
       state.questionDetails = data;
     },
     setWatchedTags(state, data) {
-      state.watchedTags = data
-    }
+      state.watchedTags = data;
+    },
   },
   actions: {
     register({ commit }, input) {
@@ -243,8 +243,8 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           commit('setAllQuestion', data);
-          if(localStorage.getItem('id')) {
-            dispatch('getUserInfo')
+          if (localStorage.getItem('id')) {
+            dispatch('getUserInfo');
           }
         })
         .catch((err) => {
@@ -332,7 +332,7 @@ export default new Vuex.Store({
     getUserInfo({ commit, dispatch }) {
       axios({
         method: 'GET',
-        url: `/users/${localStorage.getItem("id")}`,
+        url: `/users/${localStorage.getItem('id')}`,
         headers: {
           token: localStorage.getItem('token'),
         },
@@ -393,6 +393,6 @@ export default new Vuex.Store({
             },
           });
         });
-    }
+    },
   },
 });

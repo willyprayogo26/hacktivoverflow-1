@@ -87,32 +87,32 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: "AllQuestion",
+  name: 'AllQuestion',
   data() {
     return {
       show: false,
       edit: false,
-      inputTag: ""
+      inputTag: '',
     };
   },
   computed: {
-    ...mapState(["questions", "watchedTags", "isLogin"])
+    ...mapState(['questions', 'watchedTags', 'isLogin']),
   },
   created() {
     this.getAllQuestion();
   },
   methods: {
-    ...mapActions(["getAllQuestion"]),
+    ...mapActions(['getAllQuestion']),
     votesQuestion(vote, questionId) {
-      this.$store.dispatch("votesQuestion", [vote, questionId]);
+      this.$store.dispatch('votesQuestion', [vote, questionId]);
     },
     showVotes(index) {
       if (this.questions[index].votes.length) {
         return this.questions[index].votes.reduce((a, b) => ({
-          status: a.status + b.status
+          status: a.status + b.status,
         }));
       }
       return { status: 0 };
@@ -121,22 +121,22 @@ export default {
       this.show = true;
     },
     addTag() {
-      let input = {
-        watchTags: this.inputTag
+      const input = {
+        watchTags: this.inputTag,
       };
 
-      this.$store.dispatch("addTag", input);
-      this.inputTag = "";
+      this.$store.dispatch('addTag', input);
+      this.inputTag = '';
       this.show = false;
     },
     deleteTag(tagName) {
-      let input = {
-        watchTags: tagName
-      }
+      const input = {
+        watchTags: tagName,
+      };
 
-      this.$store.dispatch("deleteTag", input);
-    }
-  }
+      this.$store.dispatch('deleteTag', input);
+    },
+  },
 };
 </script>
 

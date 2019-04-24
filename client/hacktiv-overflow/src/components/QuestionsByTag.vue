@@ -54,35 +54,35 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: "AllQuestion",
+  name: 'AllQuestion',
   data() {
     return {};
   },
   computed: {
-    ...mapState(["questions"])
+    ...mapState(['questions']),
   },
   created() {
     this.getAllQuestion();
   },
   methods: {
-    ...mapActions(["getAllQuestion"]),
+    ...mapActions(['getAllQuestion']),
     votesQuestion(vote, questionId) {
-      this.$store.dispatch("votesQuestion", [vote, questionId]);
+      this.$store.dispatch('votesQuestion', [vote, questionId]);
     },
     showVotes(index) {
       if (this.questions[index].votes.length) {
         return this.questions[index].votes.reduce((a, b) => ({
-          status: a.status + b.status
+          status: a.status + b.status,
         }));
       }
       return { status: 0 };
     },
     tagContains(question) {
       return question.tags.indexOf(this.$route.params.tagName) > -1;
-    }
-  }
+    },
+  },
 };
 </script>
