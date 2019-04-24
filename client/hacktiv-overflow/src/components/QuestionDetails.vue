@@ -80,7 +80,8 @@
           </v-flex>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="addAnswer(questionDetails._id)">Add</v-btn>
+            <v-btn color="blue darken-1" flat @click="addAnswer(questionDetails._id)" v-if="isLogin">Add</v-btn>
+            <v-btn color="blue darken-1" flat @click="addAnswer(questionDetails._id)" v-if="!isLogin" disabled>Add</v-btn>
           </v-card-actions>
         </v-layout>
       </v-card>
@@ -141,7 +142,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['questionDetails']),
+    ...mapState(['questionDetails', 'isLogin']),
   },
   created() {
     this.$store.dispatch('getQuestionDetails', this.$route.params.questionId);

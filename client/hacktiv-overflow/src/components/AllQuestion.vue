@@ -6,12 +6,21 @@
         <div v-for="(question, index) in questions" :key="index">
           <v-divider light></v-divider>
           <v-layout align-center justify-start row fill-height>
-            <v-flex xs2 class="text-xs-center">
+            <v-flex xs2 class="text-xs-center" v-if="isLogin">
               <v-btn small flat @click="votesQuestion('upvote', question._id)">
                 <v-icon medium>fas fa-sort-up</v-icon>
               </v-btn>
               <div class="text-xs-center">{{showVotes(index).status}}</div>
               <v-btn small flat @click="votesQuestion('downvote', question._id)">
+                <v-icon medium>fas fa-sort-down</v-icon>
+              </v-btn>
+            </v-flex>
+            <v-flex xs2 class="text-xs-center" v-if="!isLogin">
+              <v-btn small flat @click="votesQuestion('upvote', question._id)" disabled>
+                <v-icon medium>fas fa-sort-up</v-icon>
+              </v-btn>
+              <div class="text-xs-center">{{showVotes(index).status}}</div>
+              <v-btn small flat @click="votesQuestion('downvote', question._id)" disabled>
                 <v-icon medium>fas fa-sort-down</v-icon>
               </v-btn>
             </v-flex>
@@ -50,7 +59,10 @@
     </v-flex>
     <v-flex class="text-xs-center" v-if="isLogin">
       <v-card>
-        <v-subheader>Watched Tag <v-btn flat small class="caption" @click="edit = !edit">edit</v-btn></v-subheader>
+        <v-subheader>
+          Watched Tag
+          <v-btn flat small class="caption" @click="edit = !edit">edit</v-btn>
+        </v-subheader>
         <v-divider light></v-divider>
         <div v-if="!edit">
           <span v-for="(tag, index) in watchedTags" :key="index">
@@ -66,13 +78,10 @@
         </div>
         <div v-if="edit">
           <span v-for="(tag, index) in watchedTags" :key="index">
-            <v-btn
-              depressed
-              round
-              small
-              color="secondary"
-              @click="deleteTag(tag)"
-            ><v-icon>fas fa-times</v-icon>{{ tag }}</v-btn>
+            <v-btn depressed round small color="secondary" @click="deleteTag(tag)">
+              <v-icon>fas fa-times</v-icon>
+              {{ tag }}
+            </v-btn>
             <br>
           </span>
         </div>
@@ -87,32 +96,32 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from "vuex";
 
 export default {
-  name: 'AllQuestion',
+  name: "AllQuestion",
   data() {
     return {
       show: false,
       edit: false,
-      inputTag: '',
+      inputTag: ""
     };
   },
   computed: {
-    ...mapState(['questions', 'watchedTags', 'isLogin']),
+    ...mapState(["questions", "watchedTags", "isLogin"])
   },
   created() {
     this.getAllQuestion();
   },
   methods: {
-    ...mapActions(['getAllQuestion']),
+    ...mapActions(["getAllQuestion"]),
     votesQuestion(vote, questionId) {
-      this.$store.dispatch('votesQuestion', [vote, questionId]);
+      this.$store.dispatch("votesQuestion", [vote, questionId]);
     },
     showVotes(index) {
       if (this.questions[index].votes.length) {
         return this.questions[index].votes.reduce((a, b) => ({
-          status: a.status + b.status,
+          status: a.status + b.status
         }));
       }
       return { status: 0 };
@@ -122,21 +131,21 @@ export default {
     },
     addTag() {
       const input = {
-        watchTags: this.inputTag,
+        watchTags: this.inputTag
       };
 
-      this.$store.dispatch('addTag', input);
-      this.inputTag = '';
+      this.$store.dispatch("addTag", input);
+      this.inputTag = "";
       this.show = false;
     },
     deleteTag(tagName) {
       const input = {
-        watchTags: tagName,
+        watchTags: tagName
       };
 
-      this.$store.dispatch('deleteTag', input);
-    },
-  },
+      this.$store.dispatch("deleteTag", input);
+    }
+  }
 };
 </script>
 
